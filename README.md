@@ -11,6 +11,8 @@ Introduction au SQL et à JDBC (mySQL avec JAVA).
 
 Tutoriels sur <a href="http://www.ntu.edu.sg/home/ehchua/programming/java/jdbc_basic.html">JDBC</a>.
 
+Présentation globale de JDBC sur <a href="https://fr.wikibooks.org/wiki/D%C3%A9velopper_en_Java/Introduction_%C3%A0_JDBC">WikiLivres</a>;
+
 Bases données en libre accès sur <a href="https://www.w3schools.com/sql/trysql.asp?filename=trysql_op_equal_to">W3Schools</a>.
 
 CRUD sur <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">Wikipedia</a>.

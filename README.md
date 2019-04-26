@@ -279,3 +279,35 @@ Résultat :
         </tr>
     </tbody>
 </table>
+
+Même processus, sauf qu'on ne souhaite afficher que le `Pays` de l'`Ecurie` associé au `Nom` de la `Personne` :
+
+    SELECT ecurie.ID, ecurie.Pays, personne.Nom
+    FROM ecurie
+    INNER JOIN personne
+    ON ecurie.ID = personne.ID
+
+<table align="center">
+    <tbody>
+        <tr>
+            <td>ID</td>
+            <td>PAYS</td>
+            <td>NOM</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Arménie</td>
+            <td>Autour</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Bouthan</td>
+            <td>Belin</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Corse</td>
+            <td>Corvet</td>
+        </tr>
+    </tbody>
+</table>

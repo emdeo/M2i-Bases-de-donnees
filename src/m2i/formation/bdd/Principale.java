@@ -19,16 +19,19 @@ public class Principale {
 		 * 
 		 * Vérifier également que MySQL tourne bien sur XAMPP
 		 */
-		String url = "jdbc:mysql://localhost:3306/sakila?serverTimezone=UTC";
+		String url_films = "jdbc:mysql://localhost:3306/sakila?serverTimezone=UTC";
+		String url_m2i = "jdbc:mysql://localhost:3306/m2i-formation?serverTimezone=UTC";
 
 		String user = "root";
 		String password = "";
 
 		String chSql = "select * from film"; // mes instructions (requêtes) SQL
 //		String chSql_insert = "insert into Personne (ID, Nom, Prénom, Téléphone, Email) values (?, ?, ?, ?, ?)";
+		String chSql_update = "update Personne set Nom = ?, Prénom = ?, Téléphone = ?, Email = ? where ID = ?";
 
 		Statement st = null;
 		PreparedStatement ps = null;
+		PreparedStatement ps_upd = null;
 		ResultSet rs = null; // stockera le résultat de ma requête SQL
 
 		/*
@@ -37,7 +40,7 @@ public class Principale {
 		 */
 		try {
 
-			Connection cnn = DriverManager.getConnection(url, user, password); // établir connection à ma base de
+			Connection cnn = DriverManager.getConnection(url_m2i, user, password); // établir connection à ma base de
 																				// données
 
 			// On crée une requête SQL
@@ -47,11 +50,11 @@ public class Principale {
 			 * Récupérer un jeu d'enregistrements (= result set). Prend une requête SQL en
 			 * paramètre
 			 */
-			rs = st.executeQuery(chSql);
+//			rs = st.executeQuery(chSql);
 
-			while (rs.next()) {
-				AfficherDB(rs); // sysout() de tous les élément de la BD passée en prm
-			}
+//			while (rs.next()) {
+//				AfficherSakilaFilms(rs);
+//			}
 
 //			ps = cnn.prepareStatement(chSql_insert);
 //			ps.setInt(1, 103); // insérer l'index d'un paramètre et sa valeur (ici = ID) -> LE DECOMPTE
@@ -63,6 +66,16 @@ public class Principale {
 //			
 //			System.out.println(ps.executeUpdate());
 //			System.out.println(ps.toString());
+			
+			ps_upd = cnn.prepareStatement(chSql_update);
+			ps_upd.setString(1, "Etans");
+			ps_upd.setString(2, "Elise");
+			ps_upd.setString(3, "0687945132");
+			ps_upd.setString(4, "emm.etans@lol.fr");
+			ps_upd.setInt(5, 125);
+			
+			System.out.println(ps_upd.executeUpdate());
+			System.out.println(ps_upd.toString()); // afficher la requête SQL
 
 		} // Sinon, exécuter cette instruction
 		catch (SQLException e) {
@@ -71,7 +84,29 @@ public class Principale {
 
 	}
 
-	public static void AfficherDB(ResultSet rs) {
+	// Afficher les données de Personnes (stockée dans BD m2i-formation)
+	public static void AfficherPersonne(ResultSet rs) {
+		try {
+			// prend un nom de colonne en prm
+			int id = rs.getInt("ID");
+			String nom = rs.getString("Nom");
+			String prenom = rs.getString("Prénom");
+			String tel = rs.getString("Téléphone");
+			String email = rs.getString("Email");
+			int nbVictoires = rs.getInt("NbVictoires");
+
+			// On vérifie que la BD a bien été chargée
+			System.out.println(id + "\t" + nom + "\t" + prenom + "\t" + tel + "\t" + email);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	// Afficher les de données de Film (stockée dans BD sakila)
+	public static void AfficherSakilaFilms(ResultSet rs) {
 		try {
 			// prend un nom de colonne en prm
 			int id = rs.getInt("film_id");

@@ -67,7 +67,7 @@ public class DAO_Personne implements IDAO<Personne> {
 				float taille = rs.getFloat("Taille");
 				Genre sexe = Genre.valueOf(rs.getString("Sexe"));
 
-				output = new Personne(id, nom, prenom, poids, taille, sexe);
+				output = new Personne(id, nom, prenom, poids, taille, sexe, id_Societe);
 				output.toString();
 			}
 

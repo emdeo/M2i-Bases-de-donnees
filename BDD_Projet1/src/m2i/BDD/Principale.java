@@ -10,7 +10,7 @@ public class Principale {
 		/* 
 		 * "Java build path" -> "Library" -> "Add external JAR"
 		 * (mysql-connector-java-8.0.16)
-		 * Vérifier que Apache et MySQL soient bien démarrés (MySQL en Admin)
+		 * Vérifier que Apache et MySQL soient bien démarrés (et MySQL en Admin)
 		 * 
 		 * PAS NECESSAIRE : la classe DAO_Personne permet déjà de se connecter à la BD
 		 */

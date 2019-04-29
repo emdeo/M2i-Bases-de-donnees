@@ -8,8 +8,9 @@ public class Personne {
 	private float _Poids;
 	private float _Taille;
 	private Genre _Sexe;
+	private int _ID_Societe;
 
-	public Personne(int _ID_Personne, String _Nom, String _Prenom, float _Poids, float _Taille, Genre _Sexe) {
+	public Personne(int _ID_Personne, String _Nom, String _Prenom, float _Poids, float _Taille, Genre _Sexe, int _ID_Societe) {
 		super();
 		this._ID_Personne = _ID_Personne;
 		this._Nom = _Nom;
@@ -17,6 +18,7 @@ public class Personne {
 		this._Poids = _Poids;
 		this._Taille = _Taille;
 		this._Sexe = _Sexe;
+		this._ID_Societe = _ID_Societe;
 	}
 	
 	
@@ -90,9 +92,31 @@ public class Personne {
 	public void set_Sexe(Genre _Sexe) {
 		this._Sexe = _Sexe;
 	}
+	
+
+
+	public int get_ID_Societe() {
+		return _ID_Societe;
+	}
 
 
 
+	public void set_ID_Societe(int _ID_Societe) {
+		this._ID_Societe = _ID_Societe;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Personne [_ID_Personne=" + _ID_Personne + ", _Nom=" + _Nom + ", _Prenom=" + _Prenom + ", _Poids="
+				+ _Poids + ", _Taille=" + _Taille + ", _Sexe=" + _Sexe + ", _ID_Societe=" + _ID_Societe + ", IMC()="
+				+ IMC() + ", PoidsMin()=" + PoidsMin() + ", PoidsMax()=" + PoidsMax() + ", PoidsIdeal()=" + PoidsIdeal()
+				+ "]";
+	}
+	
+	
+	
 	public float IMC() {
 		return Math.round(this._Poids/(this._Taille * this._Taille)*100f)/100f;
 	}
@@ -110,33 +134,5 @@ public class Personne {
 			return  Math.round(22*(this._Taille * this._Taille)*100f)/100f;
 		return  Math.round(21*(this._Taille * this._Taille)*100f)/100f;
 	}
-
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Personne [_ID_Personne=");
-		builder.append(_ID_Personne);
-		builder.append(", _Nom=");
-		builder.append(_Nom);
-		builder.append(", _Prenom=");
-		builder.append(_Prenom);
-		builder.append(", _Poids=");
-		builder.append(_Poids);
-		builder.append(", _Taille=");
-		builder.append(_Taille);
-		builder.append(", _Sexe=");
-		builder.append(_Sexe);
-		builder.append(", IMC()=");
-		builder.append(IMC());
-		builder.append(", PoidsMin()=");
-		builder.append(PoidsMin());
-		builder.append(", PoidsMax()=");
-		builder.append(PoidsMax());
-		builder.append(", PoidsIdeal()=");
-		builder.append(PoidsIdeal());
-		builder.append("]");
-		return builder.toString();
-	}
-
 }

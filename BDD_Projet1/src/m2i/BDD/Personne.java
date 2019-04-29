@@ -111,6 +111,7 @@ public class Personne {
 		return  Math.round(21*(this._Taille * this._Taille)*100f)/100f;
 	}
 
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

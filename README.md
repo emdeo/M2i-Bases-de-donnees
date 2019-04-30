@@ -315,3 +315,19 @@ Même processus, sauf qu'on ne souhaite afficher que le `Pays` de l'`Ecurie` ass
         </tr>
     </tbody>
 </table>
+
+## FOREIGN KEY
+
+Configurer une foreign key en créant une nouvelle table (par ex. "Societe") :
+
+    CREATE TABLE Societe (
+        ID_Societe int NOT NULL,
+        Nom varchar NOT NULL,
+        PersonID int,
+        PRIMARY KEY (ID_Societe),
+        FOREIGN KEY (ID_Societe) REFERENCES Personne(ID_Societe)
+    ); 
+
+Configurer une foreign key dans une table déjà créée :
+
+    ALTER TABLE Personne ADD FOREIGN KEY (ID_Societe) REFERENCES Societe(ID_Societe)

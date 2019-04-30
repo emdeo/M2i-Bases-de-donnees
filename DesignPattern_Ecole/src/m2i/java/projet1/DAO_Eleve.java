@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class DAO_Eleve implements IDAO<Eleve> {
 
-	final static String url = "jdbc:mysql://localhost:3306/dp_formation?serverTimezone=UTC";
+	final static String url = "jdbc:mysql://localhost:3306/ecoles-simon?serverTimezone=UTC";
 	final static String user = "root";
 	final static String pwd = "";
 
@@ -35,12 +35,12 @@ public class DAO_Eleve implements IDAO<Eleve> {
 			 */
 			DAO_Note daon = new DAO_Note();
 			for (Note n : eleve.getLstNotes()) {
-				if (!eleve.getLstNotes().contains(n))
+//				if (!eleve.getLstNotes().contains(n))
 					daon.Create(n);
 			}
 
 		} catch (SQLException error) {
-			System.out.println("DAO_Eleve Creat() error: " + error.getMessage() + "\n");
+			System.out.println("DAO_Eleve Create() error: " + error.getMessage() + "\n");
 		}
 
 		return output;

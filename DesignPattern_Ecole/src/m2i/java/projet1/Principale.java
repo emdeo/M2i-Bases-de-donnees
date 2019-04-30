@@ -9,24 +9,24 @@ public class Principale {
 		/*
 		 * MANIPULER DES OBJETS ELEVE ET NOTE :
 		 * 
-		 * ETAPE 1 - CrÃ©er un objet de classe Eleve()
+		 * ETAPE 1 - Créer un objet de classe Eleve()
 		 * ETAPE 2 - Ajouter des notes
-		 * ETAPE 3 - Afficher les notes de l'Ã©lÃ¨ve
+		 * ETAPE 3 - Afficher les notes de l'élève
 		 * 
 		 * AGIR SUR LA TABLE "ELEVES" :
 		 * 
-		 * ETAPE 4 - CrÃ©er le Data Access Object (pour pouvoir utiliser les mÃ©thodes CRUD sur la table "Eleves")
-		 * ETAPE 5 - InsÃ©rer une ligne dans la table "ElÃ¨ves"
-		 * ETAPE 6 - Afficher un Ã©lÃ¨ve de la table (id en paramÃ¨tre)
-		 * ETAPE 7 - Lire toutes les ligne de la table "ElÃ¨ves"
+		 * ETAPE 4 - Créer le Data Access Object (pour pouvoir utiliser les méthodes CRUD sur la table "Eleves")
+		 * ETAPE 5 - Insérer une ligne dans la table "Elèves"
+		 * ETAPE 6 - Afficher un élève de la table (id en paramètre)
+		 * ETAPE 7 - Lire toutes les ligne de la table "Elèves"
 		 * ETAPE 8 - Modifier les informations d'une ligne de la table "Eleves"
-		 * ETAPE 9 - Supprimer un ligne de la table "ElÃ¨ves" (ID_Eleve en paramÃ¨tre)
+		 * ETAPE 9 - Supprimer un ligne de la table "Elèves" (ID_Eleve en paramètre)
 		 * 
 		 * AGIR SUR LA TABLE "NOTES" :
 		 * 
-		 * ETAPE 10 - CrÃ©er le Data Access Object (pour pouvoir utiliser les mÃ©thodes CRUD sur la table "Notes")
-		 * ETAPE 11 - InsÃ©rer une ligne dans la table "Notes"
-		 * ETAPE 12 - Afficher une note de la table (id en paramÃ¨tre)
+		 * ETAPE 10 - Créer le Data Access Object (pour pouvoir utiliser les méthodes CRUD sur la table "Notes")
+		 * ETAPE 11 - Insérer une ligne dans la table "Notes"
+		 * ETAPE 12 - Afficher une note de la table (id en paramètre)
 		 * ETAPE 13 - Afficher toutes les notes de la table
 		 * ETAPE 14 - Modifier une note de la table
 		 * ETAPE 15 - Supprimer une note de la table
@@ -36,8 +36,8 @@ public class Principale {
 		Eleve e = new Eleve(1, "Alpha", "Alice");
 		
 		// ETAPE 2
-		e.AjoutNote(new Note(1, 15f, 2, LocalDate.now(), Matiere.FRANC));
-		e.AjoutNote(new Note(2, 11.5f, 1,LocalDate.of(2014, 6, 30), Matiere.MATHS));
+//		e.AjoutNote(new Note(10, 15f, 2, LocalDate.now(), Matiere.FRANC));
+//		e.AjoutNote(new Note(11, 11.5f, 1,LocalDate.of(2012, 12, 12), Matiere.MATHS));
 		
 		// ETAPE 3
 		System.out.println(e);
@@ -46,7 +46,7 @@ public class Principale {
 		DAO_Eleve daoe = new DAO_Eleve();
 		
 		// ETAPE 5
-//		daoe.Create(new Eleve(2,"Bravo","Bastien"));
+//		daoe.Create(new Eleve(2,"Alpha","Alice"));
 		
 		// ETAPE 6
 //		System.out.println(daoe.Read(1));
@@ -64,10 +64,10 @@ public class Principale {
 		DAO_Note daon = new DAO_Note();
 		
 		// ETAPE 11
-//		daon.Create(new Note(3, 12.5f, 3, LocalDate.now(), Matiere.HIST, 2));
+//		daon.Create(new Note(1, 12.5f, 3, LocalDate.now(), Matiere.HIST, 2));
 		
 		// ETAPE 12
-//		System.out.println(daon.Read(3));
+		System.out.println(daon.Read(3));
 		
 		// ETAPE 13
 //		System.out.println(daon.ReadAll());

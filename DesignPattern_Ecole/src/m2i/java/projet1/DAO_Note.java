@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class DAO_Note implements IDAO<Note> {
 
-	final static String url = "jdbc:mysql://localhost:3306/dp_formation?serverTimezone=UTC";
+	final static String url = "jdbc:mysql://localhost:3306/ecoles-simon?serverTimezone=UTC";
 	final static String user = "root";
 	final static String pwd = "";
 
@@ -56,7 +56,7 @@ public class DAO_Note implements IDAO<Note> {
 				
 				float valeur = rs.getFloat("Valeur");
 				int coef = rs.getInt("Coef");
-				LocalDate date = rs.getDate("Date").toLocalDate(); // Convertir un SQL.DATE en LOCALDATE
+				LocalDate date = rs.getObject("Date", LocalDate.class); // Convertir un SQL.DATE en LOCALDATE
 				Matiere mat = Matiere.valueOf(rs.getString("Matiere"));
 				int id_eleve = rs.getInt("ID_Eleve");
 

@@ -29,6 +29,9 @@ public class Eleve extends Personne implements ICalcul {
 	public void AjoutNote(Note n) {
 		this.lstNotes.add(n);
 		n.setID_Eleve(this.ID_Eleve);
+		
+		DAO_Note daon = new DAO_Note();
+		daon.Create(n);
 	}
 
 	@Override

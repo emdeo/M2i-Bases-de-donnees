@@ -21,7 +21,7 @@ public class DAO_Personne implements IDAO<Personne> {
 	public int Create(Personne p) {
 
 		int output = -1;
-		String ma_requete = "INSERT INTO Personne (ID_Personne, Nom, Prenom, Poids, Taille, Sexe) VALUE (?,?,?,?,?,?)";
+		String ma_requete = "INSERT INTO Personne VALUES (?,?,?,?,?,?,?)";
 
 		try {
 			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
@@ -33,12 +33,13 @@ public class DAO_Personne implements IDAO<Personne> {
 			ps.setFloat(4, p.get_Poids());
 			ps.setFloat(5, p.get_Taille());
 			ps.setString(6, p.get_Sexe().name());
+			ps.setInt(7, p.get_ID_Societe());
 
 			// Enregistre le nombre de modifs exécutées
 			output = ps.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Read() error: " + e.getMessage() + "\n");
+			System.out.println("DAO_Personne Create() error: " + e.getMessage() + "\n");
 		}
 
 		return output;
@@ -54,11 +55,11 @@ public class DAO_Personne implements IDAO<Personne> {
 		System.out.println("Sending MySQL request : " + ma_requete + "\n");
 
 		try {
-			PreparedStatement ps1 = _Cnn.prepareStatement(ma_requete);
+			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
 
-			ps1.setInt(1, id); // Complète la requête SQL
+			ps.setInt(1, id); // Complète la requête SQL
 
-			ResultSet rs = ps1.executeQuery();
+			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
 				String nom = rs.getString("Nom");
@@ -66,13 +67,14 @@ public class DAO_Personne implements IDAO<Personne> {
 				float poids = rs.getFloat("Poids");
 				float taille = rs.getFloat("Taille");
 				Genre sexe = Genre.valueOf(rs.getString("Sexe"));
+				int id_Societe = rs.getInt("ID_Societe");
 
 				output = new Personne(id, nom, prenom, poids, taille, sexe, id_Societe);
 				output.toString();
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Read() error: " + e.getMessage() + "\n");
+			System.out.println("DAO_Personne Read() error: " + e.getMessage() + "\n");
 		}
 
 		return output;
@@ -98,12 +100,46 @@ public class DAO_Personne implements IDAO<Personne> {
 				float poids = rs.getFloat("Poids");
 				float taille = rs.getFloat("Taille");
 				Genre sexe = Genre.valueOf(rs.getString("Sexe"));
+				int id_Societe = rs.getInt("ID_Societe");
 
-				output.add(new Personne(id, nom, prenom, poids, taille, sexe));
+				output.add(new Personne(id, nom, prenom, poids, taille, sexe, id_Societe));
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Read() error: " + e.getMessage() + "\n");
+			System.out.println("DAO_Personne ReadAll() error: " + e.getMessage() + "\n");
+		}
+
+		return output;
+	}
+
+	// Renvoie une liste d'employés dont l'ID_Société correspond au paramètre
+	public ArrayList<Personne> ListeEmployesSociete(int id_soc) {
+
+		ArrayList<Personne> output = new ArrayList<Personne>();
+		String ma_requete = "SELECT * FROM Personne WHERE ID_Societe = ?";
+
+		System.out.println("Sending MySQL request : " + ma_requete + "\n");
+
+		try {
+			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
+			ps.setInt(1, id_soc); // Complète la requête SQL
+			ResultSet rs = ps.executeQuery();
+
+			// WHILE : on ajoute un nouvel objet tant qu'il y a encore un ligne de données
+			while (rs.next()) {
+				int id = rs.getInt("ID_Personne");
+				String nom = rs.getString("Nom");
+				String prenom = rs.getString("Prenom");
+				float poids = rs.getFloat("Poids");
+				float taille = rs.getFloat("Taille");
+				Genre sexe = Genre.valueOf(rs.getString("Sexe"));
+				int id_Societe = rs.getInt("ID_Societe");
+
+				output.add(new Personne(id, nom, prenom, poids, taille, sexe, id_Societe));
+			}
+
+		} catch (SQLException e) {
+			System.out.println("DAO_Personne ListeEmployesSociete() error: " + e.getMessage() + "\n");
 		}
 
 		return output;
@@ -114,7 +150,8 @@ public class DAO_Personne implements IDAO<Personne> {
 	public int Update(Personne p) {
 
 		int output = -1;
-		String ma_requete = "UPDATE Personne SET Nom = ?, Prenom = ?, Poids = ?, Taille = ?, Sexe = ? WHERE ID_Personne = ?";
+		String ma_requete = "UPDATE Personne SET Nom = ?, Prenom = ?, Poids = ?,"
+				+ "Taille = ?, Sexe = ?, ID_Societe = ? WHERE ID_Personne = ?";
 
 		try {
 			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
@@ -125,13 +162,14 @@ public class DAO_Personne implements IDAO<Personne> {
 			ps.setFloat(3, p.get_Poids());
 			ps.setFloat(4, p.get_Taille());
 			ps.setString(5, p.get_Sexe().name());
-			ps.setInt(6, p.get_ID_Personne());
+			ps.setInt(6, p.get_ID_Societe());
+			ps.setInt(7, p.get_ID_Personne());
 
 			// Enregistre le nombre de modifs exécutées
 			output = ps.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Read() error: " + e.getMessage() + "\n");
+			System.out.println("DAO_Personne Update() error: " + e.getMessage() + "\n");
 		}
 
 		return output;
@@ -152,7 +190,7 @@ public class DAO_Personne implements IDAO<Personne> {
 			output = ps.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Create() error: " + e.getMessage());
+			System.out.println("DAO_Personne Delete() error: " + e.getMessage() + "\n");
 		}
 
 		return output;

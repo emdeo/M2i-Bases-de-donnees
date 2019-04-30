@@ -10,6 +10,18 @@ public class Personne {
 	private Genre _Sexe;
 	private int _ID_Societe;
 
+	// CONSTRUCTEUR 1
+	public Personne(int _ID_Personne, String _Nom, String _Prenom, float _Poids, float _Taille, Genre _Sexe) {
+		super();
+		this._ID_Personne = _ID_Personne;
+		this._Nom = _Nom;
+		this._Prenom = _Prenom;
+		this._Poids = _Poids;
+		this._Taille = _Taille;
+		this._Sexe = _Sexe;
+	}
+	
+	// CONSTRUCTEUR 2
 	public Personne(int _ID_Personne, String _Nom, String _Prenom, float _Poids, float _Taille, Genre _Sexe, int _ID_Societe) {
 		super();
 		this._ID_Personne = _ID_Personne;
@@ -109,9 +121,9 @@ public class Personne {
 
 	@Override
 	public String toString() {
-		return "Personne [_ID_Personne=" + _ID_Personne + ", _Nom=" + _Nom + ", _Prenom=" + _Prenom + ", _Poids="
-				+ _Poids + ", _Taille=" + _Taille + ", _Sexe=" + _Sexe + ", _ID_Societe=" + _ID_Societe + ", IMC()="
-				+ IMC() + ", PoidsMin()=" + PoidsMin() + ", PoidsMax()=" + PoidsMax() + ", PoidsIdeal()=" + PoidsIdeal()
+		return "Personne [_ID_Personne = " + _ID_Personne + ", _Nom = " + _Nom + ", _Prenom = " + _Prenom + ", _Poids = "
+				+ _Poids + ", _Taille = " + _Taille + ", _Sexe = " + _Sexe + ", _ID_Societe = " + _ID_Societe + ", IMC() = "
+				+ IMC() + ", PoidsMin() = " + PoidsMin() + ", PoidsMax() = " + PoidsMax() + ", PoidsIdeal() = " + PoidsIdeal()
 				+ "]";
 	}
 	

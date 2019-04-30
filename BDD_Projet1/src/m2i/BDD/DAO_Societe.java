@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DAO_Societe implements IDAO<Personne> {
-	
+public class DAO_Societe {
+
 	final static String url = "jdbc:mysql://localhost:3306/dp_formation?serverTimezone=UTC";
 	final static String user = "root";
 	final static String pwd = "";
@@ -15,60 +15,134 @@ public class DAO_Societe implements IDAO<Personne> {
 	// On se connecte à la BD "dp_formation"
 	private static Connection _Cnn = Connexion.get_instance(url, user, pwd);
 
-	@Override
-	public int Create(Personne obj) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	public int Create(Societe s) {
 
-	@Override
-	public Personne Read(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Personne> ReadAll() {
-
-		ArrayList<Personne> output = new ArrayList<Personne>();
-		String ma_requete = "SELECT * FROM Personne";
-
-		System.out.println("Sending MySQL request : " + ma_requete + "\n");
+		int output = -1;
+		String request1 = "INSERT INTO Societe VALUES (?,?,?,?)";
 
 		try {
-			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
-			ResultSet rs = ps.executeQuery();
+			PreparedStatement ps = _Cnn.prepareStatement(request1);
 
-			// WHILE : on ajoute un nouvel objet tant qu'il y a encore un ligne de données
-			while (rs.next()) {
-				int id_Personne = rs.getInt("ID_Personne");
-				String nom = rs.getString("Nom");
-				String prenom = rs.getString("Prenom");
-				float poids = rs.getFloat("Poids");
-				float taille = rs.getFloat("Taille");
-				Genre sexe = Genre.valueOf(rs.getString("Sexe"));
-				int id_Societe = rs.getInt("ID_Societe");
+			// Complète la requête SQL
+			ps.setInt(1, s.get_ID_Societe());
+			ps.setString(2, s.get_Nom());
+			ps.setFloat(3, s.get_CA());
+			ps.setString(4, s.get_Activite().name());
 
-				output.add(new Personne(id_Personne, nom, prenom, poids, taille, sexe, id_Societe));
+			// Exécute la reqûete et enregistre le nombre de modifs
+			output = ps.executeUpdate();
+
+			// Ajouter les employés enregistrés dans l'objet Societe dans la table
+			// "Personne"
+			DAO_Personne daop = new DAO_Personne();
+			for (Personne p : s.get_lstEmployes()) {
+				daop.Create(p);
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Read() error: " + e.getMessage() + "\n");
+			System.out.println("DAO_Societe Create() error: " + e.getMessage() + "\n");
 		}
 
 		return output;
 	}
 
-	@Override
-	public int Update(Personne obj) {
-		// TODO Auto-generated method stub
-		return 0;
+	public Societe Read(int id) {
+
+		Societe output = null;
+		String ma_requete = "SELECT * FROM Societe WHERE ID_Societe = ?";
+
+		System.out.println("Sending MySQL request : " + ma_requete + "\n");
+
+		try {
+			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
+
+			ps.setInt(1, id); // Complète la requête SQL
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				String nom = rs.getString("Nom");
+				float ca = rs.getFloat("CA");
+				Activites activite = Activites.valueOf(rs.getString("Activite"));
+
+				output = new Societe(id, nom, ca, activite);
+				output.toString();
+			}
+
+		} catch (SQLException e) {
+			System.out.println("DAO_Personne Read() error: " + e.getMessage() + "\n");
+		}
+
+		return output;
 	}
 
-	@Override
+	public ArrayList<Societe> ReadAll() {
+
+		ArrayList<Societe> output = new ArrayList<Societe>();
+		String request = "SELECT * FROM Societe";
+
+		System.out.println("Sending SQL request: " + request + "\n");
+
+		try {
+
+			PreparedStatement ps = _Cnn.prepareStatement(request);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("ID_Societe");
+				String nom = rs.getString("Nom");
+				float ca = rs.getFloat("CA");
+				Activites act = Activites.valueOf(rs.getString("Activite"));
+
+				output.add(new Societe(id, nom, ca, act));
+			}
+
+		} catch (SQLException e) {
+			System.out.println("DAO_Personne ReadAll() error: " + e.getMessage() + "\n");
+		}
+
+		return output;
+	}
+
+	public int Update(Societe s) {
+
+		int output = -1;
+		String request = "UPDATE Societe SET Nom = ?, CA = ?, Activite = ? WHERE ID_Societe = ?";
+
+		try {
+			// Charger la requête SQL
+			PreparedStatement ps = _Cnn.prepareStatement(request);
+
+			// Compléter la requête
+			ps.setString(1, s.get_Nom());
+			ps.setFloat(2, s.get_CA());
+			ps.setString(3, s.get_Activite().name());
+			ps.setInt(4, s.get_ID_Societe());
+
+			// Exécuter la requête et enregistrer son résultat
+			output = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("DAO_Societe Update() error: " + e.getMessage() + "\n");
+		}
+		return output;
+	}
+
 	public int Delete(int id) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		int output = 0;
+		String request = "DELETE FROM Societe WHERE ID_Societe = ?";
+
+		try {
+
+			PreparedStatement ps = _Cnn.prepareStatement(request);
+			ps.setInt(1, id);
+			output = ps.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(("DAO_Societe Delete() error: " + e.getMessage() + "\n"));
+		}
+
+		return output;
 	}
 
 }

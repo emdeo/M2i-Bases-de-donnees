@@ -195,5 +195,27 @@ public class DAO_Personne implements IDAO<Personne> {
 
 		return output;
 	}
+	
+	// Supprimer tous les employés d'une société dont on pass l'ID en paramètre
+	public int SupprimerTousEmployes(int id_soc) {
+		
+		int output = -1;
+		
+		String ma_requete = "DELETE * FROM Personne WHERE ID_Societe = ?";
+
+		try {
+			PreparedStatement ps = _Cnn.prepareStatement(ma_requete);
+
+			ps.setInt(1, id_soc); // Complète la requête SQL
+
+			// Enregistre le nombre de modifs exécutées
+			output = ps.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("DAO_Personne Delete() error: " + e.getMessage() + "\n");
+		}
+		
+		return output;
+	}
 
 }

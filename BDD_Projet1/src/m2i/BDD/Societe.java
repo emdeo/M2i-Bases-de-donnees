@@ -13,16 +13,6 @@ public class Societe {
 	
 	// Liste d'employés (objets de classe Personne)
 	private ArrayList<Personne> _lstEmployes = new ArrayList<Personne>();
-
-	
-	public Societe (int ID_Societe, String _Nom, float _CA, Activites _Activite, ArrayList<Personne> _lstEmployes) {
-		super();
-		this._ID_Societe = ID_Societe;
-		this._Nom = _Nom;
-		this._CA = _CA;
-		this._Activite = _Activite;
-		this._lstEmployes = _lstEmployes;
-	}
 	
 	public Societe(int ID_Societe, String _Nom, float _CA, Activites _Activite) {
 		super();
@@ -30,6 +20,10 @@ public class Societe {
 		this._Nom = _Nom;
 		this._CA = _CA;
 		this._Activite = _Activite;
+		
+		// Insérer une société dans la table "Société" chaque fois qu'un nouvel objet Societe est instancié
+		DAO_Societe daos = new DAO_Societe();
+		daos.Create(this);
 	}
 	
 	public void CreerListe(ArrayList<Personne> liste) {

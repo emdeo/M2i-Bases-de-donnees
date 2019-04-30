@@ -34,6 +34,7 @@ public class Principale {
 		 * ETAPE 10 - Afficher la liste complète des Sociétés
 		 * ETAPE 11 - Modifier les informations d'une Société
 		 * ETAPE 12 - Supprimer une société de la table
+		 * ETAPE 13 - Ajouter un employé à une Societe
 		 */
 
 		// ETAPE 1
@@ -71,7 +72,12 @@ public class Principale {
 //		daos.Update(new Societe(2, "Blablabus", 5.4f, Activites.TRANSPORTS));
 		
 		// ETAPE 12
-		daos.Delete(3);
+//		daos.Delete(3);
+		
+		// ETAPE 13
+//		Societe s1 = new Societe(3, "Picsou", 101f, Activites.FINANCE);
+//		s1.AjoutEmploye(new Personne(6, "Foxtrot", "Fifi", 34f, 1.12f, Genre.MASCULIN, s1.get_ID_Societe()));
+//		Afficher_Personne(s1.get_lstEmployes());
 		
 	}
 	

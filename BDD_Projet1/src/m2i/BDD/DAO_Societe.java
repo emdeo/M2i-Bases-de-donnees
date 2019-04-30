@@ -107,6 +107,13 @@ public class DAO_Societe {
 	public int Update(Societe s) {
 
 		int output = -1;
+
+		// Si la société qu'on veut modifier n'existe pas, on la crée et la méthode
+		// s'arrête
+		if (this.Read(s.get_ID_Societe()) == null) {
+			return this.Create(s);
+		}
+
 		String request = "UPDATE Societe SET Nom = ?, CA = ?, Activite = ? WHERE ID_Societe = ?";
 
 		try {
@@ -118,6 +125,14 @@ public class DAO_Societe {
 			ps.setFloat(2, s.get_CA());
 			ps.setString(3, s.get_Activite().name());
 			ps.setInt(4, s.get_ID_Societe());
+			
+			// Supprimer tous les les employés de la société et les remplacer par les nouveaux
+			DAO_Personne daop = new DAO_Personne();
+			daop.SupprimerTousEmployes(s.get_ID_Societe());
+			
+			for(Personne p:s.get_lstEmployes()) {
+				daop.Create(p);
+			}
 
 			// Exécuter la requête et enregistrer son résultat
 			output = ps.executeUpdate();

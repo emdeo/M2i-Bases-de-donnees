@@ -1,4 +1,4 @@
-# REQUETES SQL
+# REQUÊTES SQL
 
 Introduction au SQL et à JDBC (mySQL avec JAVA).
 

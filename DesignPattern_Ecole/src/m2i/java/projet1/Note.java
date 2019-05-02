@@ -10,21 +10,23 @@ public class Note {
 	private Matiere matiere;
 	private int ID_Eleve;
 
-	public Note(int ID_Note, float valeur, int coef, LocalDate date, Matiere matiere, int ID_Eleve) {
+	// Constructeur 1
+	public Note(int ID_Note, float valeur, LocalDate date, Matiere matiere, int ID_Eleve) {
 		super();
 		this.ID_Note = ID_Note;
 		this.valeur = valeur;
-		this.coef = coef;
+		this.coef = matiere.getCoef();
 		this.date = date;
 		this.matiere = matiere;
 		this.ID_Eleve = ID_Eleve;
 	}
 
-	public Note(int ID_Note, float valeur, int coef, LocalDate date, Matiere matiere) {
+	// Constructeur 2
+	public Note(int ID_Note, float valeur, LocalDate date, Matiere matiere) {
 		super();
 		this.ID_Note = ID_Note;
 		this.valeur = valeur;
-		this.coef = coef;
+		this.coef = matiere.getCoef();
 		this.date = date;
 		this.matiere = matiere;
 	}

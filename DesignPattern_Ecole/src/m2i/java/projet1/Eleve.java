@@ -26,12 +26,16 @@ public class Eleve extends Personne implements ICalcul {
 		return nom + " " + prenom + " (id " + this.ID_Eleve + ")" + lstNotes;
 	}
 
+	// Ajoute une note à un élève, met automatiquement à jour la table "Note"
 	public void AjoutNote(Note n) {
 		this.lstNotes.add(n);
 		n.setID_Eleve(this.ID_Eleve);
 		
 		DAO_Note daon = new DAO_Note();
-		daon.Create(n);
+		for (Note note : this.getLstNotes()) {
+			if (!this.getLstNotes().contains(n))
+				daon.Create(note);
+		}
 	}
 
 	@Override

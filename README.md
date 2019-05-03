@@ -9,6 +9,8 @@ Introduction au SQL et à JDBC (mySQL avec JAVA).
 
 ## <a href="references">Références</a>
 
+Liens vers le site de <a href="http://staruml.io/">StarUML</a>.
+
 Tutoriels sur <a href="http://www.ntu.edu.sg/home/ehchua/programming/java/jdbc_basic.html">JDBC</a>.
 
 Présentation globale de JDBC sur <a href="https://fr.wikibooks.org/wiki/D%C3%A9velopper_en_Java/Introduction_%C3%A0_JDBC">WikiLivres</a>.

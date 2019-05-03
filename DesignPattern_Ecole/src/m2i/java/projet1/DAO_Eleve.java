@@ -3,6 +3,7 @@ package m2i.java.projet1;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 	final static String pwd = "";
 
 	private static Connection _Cnn = Connexion.get_instance(url, user, pwd);
-	
+
 	@Override
 	public int Instanciate() {
 		if (ReadAll().size() != 0) {
@@ -29,7 +30,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 		listeEleves.add(new Eleve(2, "Baratheon", "Bernard"));
 		listeEleves.add(new Eleve(3, "Lannister", "Carole"));
 		listeEleves.add(new Eleve(4, "Targaryen", "Didier"));
-		
+
 		for (Eleve eleve : listeEleves) {
 			try {
 
@@ -48,7 +49,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 				DAO_Note daon = new DAO_Note();
 				for (Note n : eleve.getLstNotes()) {
 //					if (!eleve.getLstNotes().contains(n))
-						daon.Create(n);
+					daon.Create(n);
 				}
 
 			} catch (SQLException error) {
@@ -58,7 +59,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 
 		return output;
 	}
-	
+
 	@Override
 	public int Create(Eleve eleve) {
 		int output = 1;
@@ -81,7 +82,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 			DAO_Note daon = new DAO_Note();
 			for (Note n : eleve.getLstNotes()) {
 //				if (!eleve.getLstNotes().contains(n))
-					daon.Create(n);
+				daon.Create(n);
 			}
 
 		} catch (SQLException error) {
@@ -129,7 +130,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 
 		return output;
 	}
-	
+
 	@Override
 	public Eleve Read(int id) {
 
@@ -201,7 +202,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 			ps.setInt(3, eleve.getID_Eleve());
 
 			output = ps.executeUpdate(); // mettre à jour le nom/prénom de l'élève
-			
+
 			DAO_Note daon = new DAO_Note();
 			daon.DeleteStudent(eleve.getID_Eleve()); // supprimer toutes les notes de l'ancien élève
 			daon.CreateSeveral(eleve.getLstNotes()); // insérer toutes les notes du nouvel élève
@@ -224,7 +225,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 			PreparedStatement ps = _Cnn.prepareStatement(delete_student);
 			ps.setInt(1, id);
 			output = ps.executeUpdate();
-			
+
 			// Supprimer les notes de l'élève dans la table "Note"
 			DAO_Note daon = new DAO_Note();
 			daon.DeleteStudent(id);
@@ -234,7 +235,7 @@ public class DAO_Eleve implements IDAO<Eleve> {
 		}
 		return output;
 	}
-	
+
 	// Supprimer tous les élèves de la table
 	public int DeleteAll() {
 
@@ -246,7 +247,6 @@ public class DAO_Eleve implements IDAO<Eleve> {
 			// Supprimer l'élève dans la table "Eleve"
 			PreparedStatement ps = _Cnn.prepareStatement(delete_student);
 			output = ps.executeUpdate();
-			
 
 		} catch (SQLException error) {
 			System.out.println("DAO_Eleve DeleteAll() error: " + error.getMessage() + "\n");
@@ -254,4 +254,36 @@ public class DAO_Eleve implements IDAO<Eleve> {
 		return output;
 	}
 
+	/**
+	 * 
+	 * Affiche les noms des colonnes d'une table passée en paramètre.
+	 * 
+	 * @param nomTable
+	 */
+	public static void getTableColumnsNames(String nomTable) {
+
+		ArrayList<String> tableNotes = new ArrayList<String>();
+		String request = "SELECT * FROM " + nomTable;
+
+		try {
+
+			PreparedStatement ps = _Cnn.prepareStatement(request);
+			ResultSet rs = ps.executeQuery();
+
+			// Récupérer le nom des colonnes de la table
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+
+				tableNotes.add(rsmd.getColumnName(i));
+
+			}
+
+		} catch (SQLException error) {
+			System.out.println("DAO_Note ReadAll() error: " + error.getMessage() + "\n");
+		}
+
+		System.out.print("Colonnes de '" + nomTable + "' : ");
+		System.out.println(String.join(", ", tableNotes));
+	}
 }

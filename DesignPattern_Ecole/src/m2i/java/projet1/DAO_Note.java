@@ -4,9 +4,13 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DAO_Note implements IDAO<Note> {
 
@@ -30,7 +34,7 @@ public class DAO_Note implements IDAO<Note> {
 		listeNotes.add(new Note(2, 13.5f, LocalDate.now(), Matiere.HIST, 2));
 		listeNotes.add(new Note(3, 19.5f, LocalDate.now(), Matiere.MATHS, 1));
 		listeNotes.add(new Note(4, 11f, LocalDate.now(), Matiere.SPORT, 3));
-		
+
 		for (Note n : listeNotes) {
 			try {
 
@@ -79,7 +83,7 @@ public class DAO_Note implements IDAO<Note> {
 
 		return output;
 	}
-	
+
 	@Override
 	public int CreateSeveral(ArrayList<Note> listeNotes) {
 		if (ReadAll().size() != 0) {
@@ -215,7 +219,7 @@ public class DAO_Note implements IDAO<Note> {
 
 		return output;
 	}
-	
+
 	// Vider la table (supprimer toutes les notes)
 	public int DeleteAll() {
 		int output = -1;
@@ -232,7 +236,7 @@ public class DAO_Note implements IDAO<Note> {
 
 		return output;
 	}
-	
+
 	// Supprimer toutes les notes dont l'ID_Eleve est passé en paramètre
 	public int DeleteStudent(int id) {
 		int output = -1;
@@ -249,6 +253,97 @@ public class DAO_Note implements IDAO<Note> {
 		}
 
 		return output;
+	}
+
+	/**
+	 * Affiche les noms des colonnes d'une table passée en paramètre.
+	 * 
+	 * @param nomTable
+	 */
+	public static ArrayList<String> getTableColumnsNames(String nomTable) {
+
+		// Liste vide (contiendra les noms de colonne)
+		ArrayList<String> nomsColonnes = new ArrayList<String>();
+
+		try {
+
+			// Créer et exécuter la requête SQL
+			PreparedStatement ps = _Cnn.prepareStatement("SELECT * FROM " + nomTable);
+			ResultSet rs = ps.executeQuery();
+
+			// Récupérer le nom des colonnes de la table
+			ResultSetMetaData rsmd = rs.getMetaData();
+
+			// Le décompte des colonnes démarre à 1
+			for (int i = 1; i <= rsmd.getColumnCount(); i++)
+				nomsColonnes.add(rsmd.getColumnName(i));
+
+		} catch (SQLException error) {
+			System.out.println("DAO_Note getTableColumnsNames() error: " + error.getMessage() + "\n");
+		}
+
+		System.out.print("Colonnes de '" + nomTable + "' : ");
+		System.out.println(String.join(", ", nomsColonnes) + "\n");
+
+		return nomsColonnes;
+	}
+
+	/**
+	 * Générer les requêtes SQL à partir d'une table récupérée dans une BdD.
+	 * 
+	 * @param nomTable
+	 * @return Map<String, String> (liste des requêtes et de leur nom)
+	 */
+	public static Map<String, String> generateSQL(String nomTable) {
+
+		// Liste vide (contiendra les requêtes SQL)
+		Map<String, String> listeSQL = new HashMap<String, String>();
+
+		// OPTIONNEL : la 1ere lettre du nom de table est une majuscule (utile pour
+		// mettre en forme les noms de champs)
+		nomTable = nomTable.substring(0, 1).toUpperCase() + nomTable.substring(1);
+
+		// Requêtes SQL incomplètes
+		String create = "INSERT INTO " + nomTable + " VALUES";
+		String read = "SELECT * FROM " + nomTable;
+		String readAll = read;
+		String update = "UPDATE " + nomTable + " SET";
+		String delete = "DELETE FROM " + nomTable;
+
+		String whereID = "WHERE ID_" + nomTable + " = ?";
+
+		// Champs (vides au départ)
+		String chpsCreate = "("; // (?,?,?...)
+		String chpsUpdate = ""; // champs_1 = ?, champs_2 = ?...
+
+		// Noms de colonnes (pour compléter les requêtes)
+		ArrayList<String> nomsColonnes = getTableColumnsNames(nomTable);
+
+		// Compléter les champs
+		for (String champs : nomsColonnes) {
+			chpsCreate += "?,";
+			if (!champs.equals("ID_" + nomTable))
+				chpsUpdate += champs + " = ?, ";
+		}
+
+		// Exclure la dernière virgule des champs
+		chpsCreate = chpsCreate.substring(0, chpsCreate.length() - 1) + ")";
+		chpsUpdate = chpsUpdate.substring(0, chpsUpdate.length() - 2);
+
+		// Compléter les requêtes SQL
+		create = String.join(" ", Arrays.asList(create, chpsCreate));
+		read = String.join(" ", Arrays.asList(read, whereID));
+		update = String.join(" ", Arrays.asList(update, chpsUpdate, whereID));
+		delete = String.join(" ", Arrays.asList(delete, whereID));
+
+		// Insérer les requêtes dans la liste
+		listeSQL.put("Create", create);
+		listeSQL.put("Read", read);
+		listeSQL.put("ReadAll", readAll);
+		listeSQL.put("Update", update);
+		listeSQL.put("Delete", delete);
+
+		return listeSQL;
 	}
 
 }

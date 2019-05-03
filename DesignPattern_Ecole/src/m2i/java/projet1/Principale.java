@@ -1,9 +1,9 @@
 package m2i.java.projet1;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Principale {
 
@@ -76,14 +76,14 @@ public class Principale {
 		 * EXERCICE SUR LA REFLEXION DE CLASSE
 		 */
 
-		try {
-			Map<String, String> defR = Utilitaire.defRequetes("m2i.java.projet1.Eleve");
-			for (String key : defR.keySet()) {
-			    System.out.println(key + "\t\t" + defR.get(key));
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		Utilitaire.AfficherRequetes("m2i.java.projet1.Eleve");
+//		Utilitaire.AfficherRequetes("m2i.java.projet1.Note");
+
+//		daon.getTableColumnsNames("Note");
+		
+		Map<String, String> requetes = daon.generateSQL("note");
+		for (Entry<String, String> entry : requetes.entrySet()) {
+			System.out.println(entry.getKey() + " : " + entry.getValue());
 		}
 
 	}

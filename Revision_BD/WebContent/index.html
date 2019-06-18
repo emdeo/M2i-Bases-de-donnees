@@ -39,18 +39,26 @@
 		<br />
 
 		<!-- Zone de texte -->
-		<div id="zoneTexte">
-			<textarea rows="4" cols="50">Lorem ipsum dolor sit amet, consectetur adipiscing elit
+		<div>
+			<textarea id="zoneTexte" rows="4" cols="50">Lorem ipsum dolor sit amet, consectetur adipiscing elit
 		</textarea>
 		</div>
 
 		<br />
 
-		<!-- Choix background | texte -->
-		<form id="radioChoix">
-			<input type="radio" value="background"> Background <br />
-			<input type="radio" value="texte"> Texte
-		</form>
+		<!--
+			Choix background | texte
+			Les radios doivent avoir le même attribut 'name', sinon on ne peut pas les distinguer
+		-->
+		<div id="radioChoix">
+			<label class="radio-inline"> <input type="radio"
+				name="radioChoix" id="optBackground" value="background" checked>
+				Couleur de background
+			</label> <label class="radio-inline"> <input type="radio"
+				name="radioChoix" id="optTexte" value="texte"> Couleur de
+				texte
+			</label>
+		</div>
 
 	</div>
 

@@ -13,9 +13,22 @@ function genererOptionsCouleurs(lstCouleurs) {
 
 function changerCouleur() {
 
-	var choix = $("#radioChoix:selected").val()
+	// Nom de la couleur choisie
 	var couleur = $("#selectCouleur").val()
 
-	alert("value : " + choix + "\ncouleur : " + couleur)
-	
+	// Option sélectionnée (background | texte)
+	if ($("#optTexte").is(":checked")) {
+
+//		alert("Texte " + couleur)
+		$("#zoneTexte").css("background-color", "white")
+		$("#zoneTexte").css("color", couleur)
+		
+	} else {
+
+//		alert("Background " + couleur)
+		$("#zoneTexte").css("background-color", couleur)
+		$("#zoneTexte").css("color", "black")
+		
+	}
+
 }

@@ -13,7 +13,14 @@ $(document).ready(function() {
 		}
 	})
 
-//	La couleur change en sélectionnant une radio différente (background / texte)
+	// Modifier la couleur en cliquant sur une nouvelle option
+	$("#selectCouleur").on("change", function() {
+
+		changerCouleur()
+
+	})
+
+	// Modifier la couleur en cliquant sur un bouton radio
 	$("#radioChoix").on("change", function() {
 
 		changerCouleur()
